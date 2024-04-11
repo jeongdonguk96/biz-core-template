@@ -1,20 +1,21 @@
 package io.nexgrid.bizcoretemplate.domain.access;
 
-import jakarta.persistence.*;
+import jakarta.persistence.Id;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 import lombok.NoArgsConstructor;
 import lombok.ToString;
+import org.springframework.data.mongodb.core.mapping.Document;
 
 import java.time.LocalDateTime;
 
 @Getter
-@Entity
 @ToString
+@Document(collection = "access")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Access {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
     private Long id;
     private String accessor = null;
     private String accessorIp;

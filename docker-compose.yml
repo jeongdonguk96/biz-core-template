@@ -1,0 +1,35 @@
+version: "3.8"
+
+services:
+  maria-container:
+    image: mariadb:lts
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234
+      MYSQL_DATABASE: nct
+    ports:
+      - "33077:3306"
+    volumes:
+      - C:/Users/nb18-03hp/docker_volume_mount/nct/maria:/var/lib/mysql
+
+  redis-container:
+    image: redis
+    ports:
+      - "63799:6379"
+    volumes:
+      - C:/Users/nb18-03hp/docker_volume_mount/nct/redis:/data
+
+  mongo-container:
+    image: mongo
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: root
+      MONGO_INITDB_ROOT_PASSWORD: 1234
+      MONGO_INITDB_DATABASE: nct
+    ports:
+      - "27027:27017"
+    volumes:
+      - C:/Users/nb18-03hp/docker_volume_mount/nct/mongo:/data/db
+
+volumes:
+  maria:
+  redis:
+  mongo:
