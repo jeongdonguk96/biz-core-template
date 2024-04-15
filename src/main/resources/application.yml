@@ -35,6 +35,22 @@ spring:
     hibernate:
       ddl-auto: create
 
+  session:
+    redis:
+      repository-type: indexed
+      namespace: springSession
+
+server:
+  servlet:
+    session:
+      cookie:
+        name: JSESSIONID
+        path: /
+        domain: localhost
+        http-only: false
+        secure: false
+      timeout: 3600
+
 ---
 spring:
   config:
@@ -60,3 +76,14 @@ spring:
     database-platform:
     hibernate:
       ddl-auto:
+
+server:
+  servlet:
+    session:
+      cookie:
+        name:
+        path:
+        domain:
+        http-only:
+        secure:
+      timeout:
