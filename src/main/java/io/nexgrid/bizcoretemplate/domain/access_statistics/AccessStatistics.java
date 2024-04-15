@@ -18,7 +18,8 @@ import lombok.ToString;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccessStatistics extends BaseEntity {
-    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id
+    @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     private LoginType loginType;
     private StatisticsType statisticsType;
