@@ -6,16 +6,14 @@ import io.nexgrid.bizcoretemplate.enums.Gender;
 import io.nexgrid.bizcoretemplate.enums.Role;
 import io.nexgrid.bizcoretemplate.enums.UserStatus;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 import java.util.ArrayList;
 import java.util.List;
 
 @Getter
 @Entity
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor

@@ -38,7 +38,7 @@ spring:
   session:
     redis:
       repository-type: indexed
-      namespace: springSession
+      namespace: spring
 
 server:
   servlet:
