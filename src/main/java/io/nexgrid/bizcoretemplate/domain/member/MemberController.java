@@ -1,21 +1,18 @@
 package io.nexgrid.bizcoretemplate.domain.member;
 
 import io.nexgrid.bizcoretemplate.domain.member.dto.JoinRequestDto;
-import io.nexgrid.bizcoretemplate.domain.member.repository.RedisRepository;
 import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestBody;
 import org.springframework.web.bind.annotation.RestController;
-
-import java.util.Optional;
 
 @RestController
 @RequiredArgsConstructor
 public class MemberController {
 
     private final MemberService memberService;
-    private final RedisRepository redisRepository;
 
 
     @PostMapping("/test")
@@ -23,10 +20,15 @@ public class MemberController {
         System.out.println("request = " + request);
         memberService.join(request);
         Member member = memberService.login(servletRequest, request);
-        Optional<String> allSession = redisRepository.findAllSession();
 
         System.out.println("username = " + member.getUsername());
         System.out.println("password = " + member.getPassword());
+    }
+
+    @PostMapping("/test2")
+    public void test2(HttpServletRequest servletRequest, @RequestBody JoinRequestDto request) {
+        HttpSession session = servletRequest.getSession();
+        session.getAttribute("member");
     }
 
 }

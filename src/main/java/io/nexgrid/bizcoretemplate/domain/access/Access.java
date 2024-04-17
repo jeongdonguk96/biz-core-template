@@ -16,7 +16,7 @@ import java.time.LocalDateTime;
 @AllArgsConstructor
 public class Access {
     @Id
-    private Long id;
+    private String id;
     private String accessor = null;
     private String accessorIp;
     private String accessResource;

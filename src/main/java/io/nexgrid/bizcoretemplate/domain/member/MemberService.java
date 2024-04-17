@@ -24,7 +24,9 @@ public class MemberService {
     public Member login(HttpServletRequest servletRequest, JoinRequestDto request) {
         HttpSession session = servletRequest.getSession();
         Member member = memberRepository.getMemberByLogin(request);
-        session.setAttribute("mid", member);
+        session.setAttribute("member", member);
+        Object sessionMember = session.getAttribute("member");
+        System.out.println("sessionMember = " + sessionMember);
 
         return member;
     }
