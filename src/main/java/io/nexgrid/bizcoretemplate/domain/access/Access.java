@@ -1,15 +1,11 @@
 package io.nexgrid.bizcoretemplate.domain.access;
 
 import jakarta.persistence.Id;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 import org.springframework.data.mongodb.core.mapping.Document;
 
-import java.time.LocalDateTime;
-
 @Getter
+@Builder
 @ToString
 @Document(collection = "access")
 @NoArgsConstructor
@@ -24,5 +20,5 @@ public class Access {
     private String accessMonth;
     private String accessDay;
     private String accessHour;
-    private LocalDateTime accessTime;
+    private String accessTime;
 }

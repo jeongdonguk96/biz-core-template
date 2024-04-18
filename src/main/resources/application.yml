@@ -22,8 +22,8 @@ spring:
 
   data:
     mongodb:
-      host: localhost
-      port: 65002
+      uri: mongodb://localhost:65002
+      database: nct
 
     redis:
       host: localhost

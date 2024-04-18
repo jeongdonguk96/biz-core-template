@@ -5,13 +5,11 @@ import io.nexgrid.bizcoretemplate.entity.BaseEntity;
 import io.nexgrid.bizcoretemplate.enums.BoardStatus;
 import io.nexgrid.bizcoretemplate.enums.Category;
 import jakarta.persistence.*;
-import lombok.AllArgsConstructor;
-import lombok.Getter;
-import lombok.NoArgsConstructor;
-import lombok.ToString;
+import lombok.*;
 
 @Getter
 @Entity
+@Builder
 @ToString
 @NoArgsConstructor
 @AllArgsConstructor
