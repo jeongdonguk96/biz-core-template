@@ -2,8 +2,8 @@ package io.nexgrid.bizcoretemplate.domain.board;
 
 import io.nexgrid.bizcoretemplate.domain.member.Member;
 import io.nexgrid.bizcoretemplate.entity.BaseEntity;
-import io.nexgrid.bizcoretemplate.enums.BoardStatus;
-import io.nexgrid.bizcoretemplate.enums.Category;
+import io.nexgrid.bizcoretemplate.domain.board.enums.BoardStatus;
+import io.nexgrid.bizcoretemplate.domain.board.enums.Category;
 import jakarta.persistence.*;
 import lombok.*;
 

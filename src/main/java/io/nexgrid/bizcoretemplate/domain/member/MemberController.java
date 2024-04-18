@@ -21,7 +21,7 @@ public class MemberController {
         memberService.join(request);
         Member member = memberService.login(servletRequest, request);
 
-        System.out.println("username = " + member.getUsername());
+        System.out.println("email = " + member.getEmail());
         System.out.println("password = " + member.getPassword());
     }
 

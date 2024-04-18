@@ -30,7 +30,15 @@ public class DateUtil {
 
     // 현재 시를 계산한다.
     public static String getHour() {
-        SimpleDateFormat formatter = new SimpleDateFormat("hh");
+        SimpleDateFormat formatter = new SimpleDateFormat("HH");
+        Calendar calendar = Calendar.getInstance();
+
+        return formatter.format(calendar.getTime());
+    }
+
+    // 현재 시간을 계산한다.
+    public static String getNow() {
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHH");
         Calendar calendar = Calendar.getInstance();
 
         return formatter.format(calendar.getTime());

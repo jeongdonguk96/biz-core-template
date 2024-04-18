@@ -23,7 +23,11 @@ public class MongoDBConfig {
 
         MongoClientSettings settings = MongoClientSettings.builder()
                 .applyConnectionString(connection)
-                .applyToConnectionPoolSettings(builder -> builder.minSize(10).maxSize(10))
+                .applyToConnectionPoolSettings(builder ->
+                        builder
+                            .minSize(Integer.parseInt(env.getProperty("spring.data.mongodb.min-idle")))
+                            .maxSize(Integer.parseInt(env.getProperty("spring.data.mongodb.max-size")))
+                )
                 .build();
 
         return MongoClients.create(settings);

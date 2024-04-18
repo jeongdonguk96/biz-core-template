@@ -1,4 +1,4 @@
-package io.nexgrid.bizcoretemplate.enums;
+package io.nexgrid.bizcoretemplate.domain.board.enums;
 
 public enum BoardStatus {
     VISIBLE, HIDDEN, DELETED

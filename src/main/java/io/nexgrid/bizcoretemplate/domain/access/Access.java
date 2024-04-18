@@ -13,7 +13,7 @@ import org.springframework.data.mongodb.core.mapping.Document;
 public class Access {
     @Id
     private String id;
-    private String accessor = null;
+    private String accessor;
     private String accessorIp;
     private String accessResource;
     private String accessYear;

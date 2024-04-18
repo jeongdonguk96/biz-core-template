@@ -2,9 +2,9 @@ package io.nexgrid.bizcoretemplate.domain.member;
 
 import io.nexgrid.bizcoretemplate.domain.board.Board;
 import io.nexgrid.bizcoretemplate.entity.BaseEntity;
-import io.nexgrid.bizcoretemplate.enums.Gender;
-import io.nexgrid.bizcoretemplate.enums.Role;
-import io.nexgrid.bizcoretemplate.enums.UserStatus;
+import io.nexgrid.bizcoretemplate.domain.member.enums.Gender;
+import io.nexgrid.bizcoretemplate.domain.member.enums.Role;
+import io.nexgrid.bizcoretemplate.domain.member.enums.UserStatus;
 import jakarta.persistence.*;
 import lombok.*;
 
@@ -21,9 +21,8 @@ import java.util.List;
 public class Member extends BaseEntity implements Serializable {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
-    private String username;
-    private String password;
     private String email;
+    private String password;
     private String domain;
     private String birth;
     private Gender gender;

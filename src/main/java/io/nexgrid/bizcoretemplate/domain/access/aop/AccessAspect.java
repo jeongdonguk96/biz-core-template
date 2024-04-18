@@ -7,9 +7,8 @@ import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
-import org.aspectj.lang.JoinPoint;
+import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.aspectj.lang.annotation.Before;
 import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
@@ -28,11 +27,10 @@ public class AccessAspect {
     private final HttpServletRequest request;
     private final MongoTemplate mongoTemplate;
 
-//    @Before("@annotation(io.nexgrid.bizcoretemplate.domain.access.aop.AccessTrace)")
-    @Before("@within(org.springframework.web.bind.annotation.RestController)")
-    public void beforeAccess(JoinPoint joinPoint) throws UnknownHostException {
+    @After("@within(org.springframework.web.bind.annotation.RestController)")
+    public void saveAccessData() throws UnknownHostException {
         String requestUri = request.getRequestURI();
-        String accessor = getAccessorUsername();
+        String accessor = getAccessorEmail();
         String accessorIp = request.getRemoteAddr();
 
         // Ipv6인 경우 Ipv4로 변환한다.
@@ -61,8 +59,8 @@ public class AccessAspect {
     }
 
 
-    // 요청자의 아이디를 가져온다.
-    private String getAccessorUsername() {
+    // 요청자의 이메일을 가져온다.
+    private String getAccessorEmail() {
         HttpSession session = request.getSession();
 
         if (session.getAttribute("member") == null) {
@@ -70,7 +68,7 @@ public class AccessAspect {
 
         } else {
             Member member = (Member) session.getAttribute("member");
-            return member.getUsername();
+            return member.getEmail();
         }
     }
 

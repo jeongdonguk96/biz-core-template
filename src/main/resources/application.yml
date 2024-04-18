@@ -24,14 +24,19 @@ spring:
     mongodb:
       uri: mongodb://localhost:65002
       database: nct
+      min-idle: 10
+      max-size: 10
 
     redis:
       host: localhost
       port: 65003
       password:
+      lettuce:
+        pool:
+          max-idle: 8
+          min-idle: 8
 
   jpa:
-#    database-platform: org.hibernate.dialect.MariaDBDialect
     hibernate:
       ddl-auto: create
 
@@ -67,22 +72,36 @@ spring:
       maximum-pool-size: 10
 
   data:
+    mongodb:
+      uri:
+      database:
+      min-idle: 10
+      max-size: 10
+
     redis:
       host:
       port:
       password:
+      lettuce:
+        pool:
+          max-idle: 8
+          min-idle: 8
 
   jpa:
-    database-platform:
     hibernate:
-      ddl-auto:
+      ddl-auto: create
+
+  session:
+    redis:
+      repository-type: indexed
+      namespace: spring
 
 server:
   servlet:
     session:
       cookie:
-        name:
-        path:
+        name: JSESSIONID
+        path: /
         domain:
         http-only:
         secure:
