@@ -27,12 +27,14 @@ public class AccessAspect {
     private final HttpServletRequest request;
     private final AccessRepository accessRepository;
 
-    @After("@within(org.springframework.web.bind.annotation.RestController)")
+    @After("@within(org.springframework.stereotype.Controller) && @within(org.springframework.web.bind.annotation.RestController)")
     public void saveAccessData() throws UnknownHostException {
         String requestUri = request.getRequestURI();
         String accessor = getAccessorEmail();
         String accessorIp = request.getRemoteAddr();
 
+        System.out.println("요청드러왔따");
+        
         // Ipv6인 경우 Ipv4로 변환한다.
         if (InetAddress.getByName(accessorIp) instanceof Inet6Address) {
             InetAddress inetAddress = InetAddress.getByName(accessorIp);
