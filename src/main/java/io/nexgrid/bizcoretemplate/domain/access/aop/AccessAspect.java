@@ -1,6 +1,7 @@
 package io.nexgrid.bizcoretemplate.domain.access.aop;
 
 import io.nexgrid.bizcoretemplate.domain.access.Access;
+import io.nexgrid.bizcoretemplate.domain.access.repository.AccessRepository;
 import io.nexgrid.bizcoretemplate.domain.member.Member;
 import io.nexgrid.bizcoretemplate.util.DateUtil;
 import jakarta.servlet.http.HttpServletRequest;
@@ -9,7 +10,6 @@ import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
-import org.springframework.data.mongodb.core.MongoTemplate;
 import org.springframework.stereotype.Component;
 
 import java.net.Inet6Address;
@@ -25,7 +25,7 @@ import java.time.ZonedDateTime;
 public class AccessAspect {
 
     private final HttpServletRequest request;
-    private final MongoTemplate mongoTemplate;
+    private final AccessRepository accessRepository;
 
     @After("@within(org.springframework.web.bind.annotation.RestController)")
     public void saveAccessData() throws UnknownHostException {
@@ -55,7 +55,7 @@ public class AccessAspect {
                 .accessTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toString())
                 .build();
 
-        mongoTemplate.save(newAccess);
+        accessRepository.save(newAccess);
     }
 
 
