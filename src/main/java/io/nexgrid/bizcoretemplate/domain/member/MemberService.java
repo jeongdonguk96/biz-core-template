@@ -1,34 +1,42 @@
 package io.nexgrid.bizcoretemplate.domain.member;
 
-import io.nexgrid.bizcoretemplate.domain.member.dto.JoinRequestDto;
+import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDTO;
+import io.nexgrid.bizcoretemplate.domain.member.enums.Role;
 import io.nexgrid.bizcoretemplate.domain.member.repository.MemberRepository;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import jakarta.transaction.Transactional;
-import lombok.RequiredArgsConstructor;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 import org.springframework.stereotype.Service;
 
+import java.util.List;
+
 @Service
-@RequiredArgsConstructor
 public class MemberService {
 
-    private final MemberRepository memberRepository;
+    private MemberRepository memberRepository;
 
-    @Transactional
-    public void join(JoinRequestDto request) {
-        Member newMember = request.toEntity(new Member());
-        memberRepository.save(newMember);
+    @Autowired
+    private BCryptPasswordEncoder bCryptPasswordEncoder;
+
+    @Autowired
+    public MemberService(MemberRepository memberRepository) {
+        this.memberRepository = memberRepository;
     }
 
-    @Transactional
-    public Member login(HttpServletRequest servletRequest, JoinRequestDto request) {
-        HttpSession session = servletRequest.getSession();
-        Member member = memberRepository.getMemberByLogin(request);
-        session.setAttribute("member", member);
-        Object sessionMember = session.getAttribute("member");
-        System.out.println("sessionMember = " + sessionMember);
+    public void signUpProcess(SignUpDTO signUpDTO) {
 
-        return member;
+        Member member = Member.builder()
+                .email(signUpDTO.getEmail())
+                .password(bCryptPasswordEncoder.encode(signUpDTO.getPassword()))
+                .role(Role.ROOT)
+                .build();
+
+        memberRepository.save(member);
     }
+
+    public List<Member> selectList() {
+
+        return memberRepository.findAll();
+    }
+
 
 }

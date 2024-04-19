@@ -23,6 +23,7 @@ public class Member extends BaseEntity implements Serializable {
     private Long id;
     private String email;
     private String password;
+    private String username;
     private String domain;
     private String birth;
     private Gender gender;
@@ -33,6 +34,6 @@ public class Member extends BaseEntity implements Serializable {
     private UserStatus userStatus;
     private String passwordModifiedDate;
     private String lastLoginDate;
-    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER)
     private List<Board> boardList = new ArrayList<>();
 }

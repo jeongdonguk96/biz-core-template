@@ -1,34 +1,59 @@
 package io.nexgrid.bizcoretemplate.domain.member;
 
-import io.nexgrid.bizcoretemplate.domain.member.dto.JoinRequestDto;
-import jakarta.servlet.http.HttpServletRequest;
-import jakarta.servlet.http.HttpSession;
-import lombok.RequiredArgsConstructor;
+import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDTO;
+import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.stereotype.Controller;
+import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.PostMapping;
-import org.springframework.web.bind.annotation.RequestBody;
-import org.springframework.web.bind.annotation.RestController;
 
-@RestController
-@RequiredArgsConstructor
+import java.util.List;
+
+@Controller
 public class MemberController {
 
-    private final MemberService memberService;
+    private MemberService memberService;
 
+    @Autowired
+    public MemberController(MemberService memberService) {
+        this.memberService = memberService;
+    }
+    // 생성자 주입방식
 
-    @PostMapping("/test")
-    public void test(HttpServletRequest servletRequest, @RequestBody JoinRequestDto request) {
-        System.out.println("request = " + request);
-        memberService.join(request);
-        Member member = memberService.login(servletRequest, request);
-
-        System.out.println("email = " + member.getEmail());
-        System.out.println("password = " + member.getPassword());
+    @GetMapping("/")
+    public String test() {
+        return "test";
     }
 
-    @PostMapping("/test2")
-    public void test2(HttpServletRequest servletRequest, @RequestBody JoinRequestDto request) {
-        HttpSession session = servletRequest.getSession();
-        session.getAttribute("member");
+    @GetMapping("/login")
+    public String loginPage() {
+        return "login";
     }
 
+    @GetMapping("/signup")
+    public String signUpPage() {
+
+        return "signup";
+    }
+
+    @PostMapping("/signupRequest")
+    public String signUpRequest(SignUpDTO signUpDTO) {
+
+        System.out.println("### UserEmail : "+signUpDTO.getEmail());
+        System.out.println("### Password : "+signUpDTO.getPassword());
+
+        memberService.signUpProcess(signUpDTO);
+
+        return "redirect:/login";
+    }
+
+    @GetMapping("/list")
+    public String memberList() {
+
+        List<Member> memberList = memberService.selectList();
+        for (Member member: memberList) {
+            System.out.println("MemberInfo : "+member.toString());
+        }
+
+        return "list";
+    }
 }
