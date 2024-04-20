@@ -16,10 +16,12 @@ import lombok.*;
 public class Board extends BaseEntity {
     @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private Category category;
     private String title;
     private String contents;
     @ManyToOne(fetch = FetchType.LAZY)
     private Member writer;
+    @Enumerated(EnumType.STRING)
     private BoardStatus boardStatus;
 }

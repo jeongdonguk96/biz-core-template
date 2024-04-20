@@ -1,13 +1,9 @@
 package io.nexgrid.bizcoretemplate.domain.access_statistics;
 
-import io.nexgrid.bizcoretemplate.entity.BaseEntity;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.LoginType;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.StatisticsType;
-import io.nexgrid.bizcoretemplate.util.DateUtil;
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import io.nexgrid.bizcoretemplate.entity.BaseEntity;
+import jakarta.persistence.*;
 import lombok.*;
 
 @Getter
@@ -20,17 +16,11 @@ public class AccessStatistics extends BaseEntity {
     @Id
     @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
+    @Enumerated(EnumType.STRING)
     private StatisticsType statisticsType;
+    @Enumerated(EnumType.STRING)
     private LoginType loginType;
     private String accessResource;
-    private String accessorCount;
-    private String statisticsStamp; // hourly: yyyyMMddHH, daily: yyyMMdd, monthly: yyyyMM
-
-    public void stampStatistics(StatisticsType statisticsType) {
-        switch (statisticsType) {
-            case HOURLY -> this.statisticsStamp = DateUtil.getNow();
-            case DAILY -> this.statisticsStamp = DateUtil.getDay();
-            case MONTHLY -> this.statisticsStamp = DateUtil.getMonth();
-        }
-    }
+    private int accessorCount;
+    private String statisticsStamp; // hourly: getNow(), daily: getDay(), monthly: getMonth()
 }

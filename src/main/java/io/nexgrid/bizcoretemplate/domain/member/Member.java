@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Entity
 @Builder
-@ToString
+@ToString(exclude = "boardList")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member extends BaseEntity implements Serializable {
@@ -26,11 +26,14 @@ public class Member extends BaseEntity implements Serializable {
     private String username;
     private String domain;
     private String birth;
+    @Enumerated(EnumType.STRING)
     private Gender gender;
     private String oldPassword1;
     private String oldPassword2;
     private Integer loginFailCount;
+    @Enumerated(EnumType.STRING)
     private Role role;
+    @Enumerated(EnumType.STRING)
     private UserStatus userStatus;
     private String passwordModifiedDate;
     private String lastLoginDate;
