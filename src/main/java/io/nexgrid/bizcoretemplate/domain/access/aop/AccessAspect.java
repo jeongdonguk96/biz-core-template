@@ -30,7 +30,7 @@ public class AccessAspect {
     @After("@within(org.springframework.stereotype.Controller) && @within(org.springframework.web.bind.annotation.RestController)")
     public void saveAccessData() throws UnknownHostException {
         String requestUri = request.getRequestURI();
-        String accessor = getAccessorEmail();
+        String accessor = getAccessorUsername();
         String accessorIp = request.getRemoteAddr();
 
         System.out.println("요청드러왔따");
@@ -62,7 +62,7 @@ public class AccessAspect {
 
 
     // 요청자의 이메일을 가져온다.
-    private String getAccessorEmail() {
+    private String getAccessorUsername() {
         HttpSession session = request.getSession();
 
         if (session.getAttribute("member") == null) {
@@ -70,7 +70,7 @@ public class AccessAspect {
 
         } else {
             Member member = (Member) session.getAttribute("member");
-            return member.getEmail();
+            return member.getUsername();
         }
     }
 

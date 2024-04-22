@@ -1,9 +1,11 @@
 package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.hourlybatchjob;
 
 import io.nexgrid.bizcoretemplate.domain.access.repository.AccessRepository;
+import io.nexgrid.bizcoretemplate.domain.access_statistics.batch.listener.JobListener;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.repository.AccessStatisticsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
+import org.springframework.batch.core.JobExecutionListener;
 import org.springframework.batch.core.Step;
 import org.springframework.batch.core.job.builder.JobBuilder;
 import org.springframework.batch.core.launch.support.RunIdIncrementer;
@@ -30,23 +32,22 @@ public class HourlyStatisticsBatchJobConfiguration {
 
 
     @Bean
-    public Job hourlyStatisticsBatchJob(Step hourlyStatisticsStep) {
+    public Job hourlyStatisticsBatchJob() {
         return new JobBuilder("hourlyStatisticsBatchJob", jobRepository)
                 .incrementer(new RunIdIncrementer())
-                .start(hourlyStatisticsStep)
-//                .listener()
+                .start(hourlyStatisticsStep())
+                .listener(jobListener())
                 .build();
     }
 
     @Bean
-    public Step hourlyStatisticsStep(ItemReader<List<String>> hourlyStatisticsItemReader,
-                                     ItemProcessor<? super List<String>, Map<String, Integer>> hourlyStatisticsItemProcessor,
-                                     ItemWriter<? super Map<String, Integer>> hourlyStatisticsItemWriter) {
+    public Step hourlyStatisticsStep() {
         return new StepBuilder("hourlyStatisticsStep", jobRepository)
                 .chunk(1, transactionManager)
-                .reader(hourlyStatisticsItemReader)
-                .processor((ItemProcessor<? super Object, Map<String, Integer>>) hourlyStatisticsItemProcessor)
-                .writer((ItemWriter<? super Object>) hourlyStatisticsItemWriter)
+                .reader(hourlyStatisticsItemReader())
+                .processor((ItemProcessor<? super Object, ?>) hourlyStatisticsItemProcessor())
+                .writer((ItemWriter<? super Object>) hourlyStatisticsItemWriter())
+                .allowStartIfComplete(true)
                 .build();
     }
 
@@ -54,15 +55,19 @@ public class HourlyStatisticsBatchJobConfiguration {
     public ItemReader<List<String>> hourlyStatisticsItemReader() {
         return new HourlyStatisticsBatchItemReader(accessRepository);
     }
-
     @Bean
     public ItemProcessor<? super List<String>, Map<String, Integer>> hourlyStatisticsItemProcessor() {
         return new HourlyStatisticsBatchItemProcessor(accessRepository);
     }
 
     @Bean
-    public ItemWriter<Map<String, Integer>> hourlyStatisticsItemWriter() {
+    public ItemWriter<?> hourlyStatisticsItemWriter() {
         return new HourlyStatisticsBatchItemWriter(accessStatisticsRepository);
+    }
+
+    @Bean
+    public JobExecutionListener jobListener() {
+        return new JobListener();
     }
 
 }
