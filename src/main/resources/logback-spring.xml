@@ -1,0 +1,92 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<configuration>
+    <!-- 로그 패턴에 색상 적용 %clr(pattern){color} https://logback.qos.ch/manual/layouts.html#coloring -->
+    <conversionRule conversionWord="clr" converterClass="org.springframework.boot.logging.logback.ColorConverter" />
+
+    <!-- springProfile 태그를 사용하여 profile 별 property 값 설정 -->
+    <springProfile name="local">
+        <property name="SERVICE_LOG_PATH" value="C:\Users\nb18-03hp\project_logs\nct\service"/>
+        <property name="ERROR_LOG_PATH" value="C:\Users\nb18-03hp\project_logs\nct\error"/>
+        <property name="OMS_LOG_PATH" value="C:\Users\nb18-03hp\project_logs\nct\oms"/>
+    </springProfile>
+    <springProfile name="dev">
+        <property name="LOG_PATH" value=""/>
+    </springProfile>
+
+    <!-- log file name -->
+    <!-- err log file name -->
+    <!-- console log pattern -->
+    <!-- file log pattern -->
+    <property name="SERVICE_LOG_FILE_NAME" value="nct"/>
+    <property name="ERROR_LOG_FILE_NAME" value="error"/>
+    <property name="OMS_LOG_FILE_NAME" value="nct"/>
+    <property name="CONSOLE_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative]  %clr(%-5level) %clr(${PID:-}){magenta} %clr(---){faint} %clr([%15.15thread]){faint} %clr(%-40.40logger{36}){cyan} %clr(:){faint} %msg%n"/>
+    <property name="FILE_LOG_PATTERN" value="[%d{yyyy-MM-dd HH:mm:ss}:%-3relative] %-5level ${PID:-} --- [%15.15thread] %-40.40logger{36} : %msg%n"/>
+
+    <!-- Console Appender -->
+    <appender name="console"
+              class="ch.qos.logback.core.ConsoleAppender"
+              level="info">
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${CONSOLE_LOG_PATTERN}</pattern>
+        </encoder>
+    </appender>
+
+    <!-- File Appender -->
+    <appender name="service"
+              class="ch.qos.logback.core.rolling.RollingFileAppender"
+              level="info">
+        <!-- 파일경로 설정 -->
+        <file>${SERVICE_LOG_PATH}/${SERVICE_LOG_FILE_NAME}.log</file>
+        <fileNamePattern>${SERVICE_LOG_PATH}/${SERVICE_LOG_FILE_NAME}_%d{yyyy-MM-dd}.log</fileNamePattern>
+        <append>true</append>
+
+        <!-- 출력패턴 설정 -->
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+
+        <!-- Rolling 정책 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- .gz .zip 등을 넣으면 자동 일자별 로그 파일 압축 -->
+            <fileNamePattern>${SERVICE_LOG_PATH}/${SERVICE_LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.gz</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 파일당 최고 용량 kb, mb, gb -->
+                <maxFileSize>10KB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+        </rollingPolicy>
+    </appender>
+
+    <!-- 에러의 경우 파일에 로그 처리 -->
+    <appender name="error"
+              class="ch.qos.logback.core.rolling.RollingFileAppender">
+        <filter class="ch.qos.logback.classic.filter.LevelFilter">
+            <level>error</level>
+            <onMatch>ACCEPT</onMatch>
+            <onMismatch>DENY</onMismatch>
+        </filter>
+        <file>${ERROR_LOG_PATH}/${ERROR_LOG_FILE_NAME}.log</file>
+        <encoder class="ch.qos.logback.classic.encoder.PatternLayoutEncoder">
+            <pattern>${FILE_LOG_PATTERN}</pattern>
+        </encoder>
+
+        <!-- Rolling 정책 -->
+        <rollingPolicy class="ch.qos.logback.core.rolling.TimeBasedRollingPolicy">
+            <!-- .gz .zip 등을 넣으면 자동 일자별 로그파일 압축 -->
+            <fileNamePattern>${ERROR_LOG_PATH}/${ERROR_LOG_FILE_NAME}.%d{yyyy-MM-dd}_%i.log</fileNamePattern>
+            <timeBasedFileNamingAndTriggeringPolicy class="ch.qos.logback.core.rolling.SizeAndTimeBasedFNATP">
+                <!-- 파일당 최고 용량 kb, mb, gb -->
+                <maxFileSize>10KB</maxFileSize>
+            </timeBasedFileNamingAndTriggeringPolicy>
+            <!-- 일자별 로그 파일 최대 보관주기(~일), 해당 설정일 이상된 파일은 자동으로 제거 -->
+            <maxHistory>60</maxHistory>
+        </rollingPolicy>
+    </appender>
+
+    <!-- root 레벨 설정 -->
+    <root level="info">
+        <appender-ref ref="console"/>
+        <appender-ref ref="service"/>
+        <appender-ref ref="error"/>
+    </root>
+</configuration>
