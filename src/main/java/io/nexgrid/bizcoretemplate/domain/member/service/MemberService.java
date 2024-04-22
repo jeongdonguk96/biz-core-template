@@ -1,5 +1,6 @@
-package io.nexgrid.bizcoretemplate.domain.member;
+package io.nexgrid.bizcoretemplate.domain.member.service;
 
+import io.nexgrid.bizcoretemplate.domain.member.Member;
 import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDTO;
 import io.nexgrid.bizcoretemplate.domain.member.enums.Role;
 import io.nexgrid.bizcoretemplate.domain.member.repository.MemberRepository;

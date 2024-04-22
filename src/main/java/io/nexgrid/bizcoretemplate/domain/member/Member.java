@@ -15,7 +15,7 @@ import java.util.List;
 @Getter
 @Entity
 @Builder
-@ToString
+@ToString(exclude = "boardList")
 @NoArgsConstructor
 @AllArgsConstructor
 public class Member extends BaseEntity implements Serializable {
@@ -34,6 +34,6 @@ public class Member extends BaseEntity implements Serializable {
     private UserStatus userStatus;
     private String passwordModifiedDate;
     private String lastLoginDate;
-    @OneToMany(mappedBy = "writer", fetch = FetchType.EAGER)
+    @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Board> boardList = new ArrayList<>();
 }

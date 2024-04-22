@@ -1,5 +1,7 @@
-package io.nexgrid.bizcoretemplate.domain.member;
+package io.nexgrid.bizcoretemplate.domain.member.service;
 
+import io.nexgrid.bizcoretemplate.domain.member.CustomUserDetails;
+import io.nexgrid.bizcoretemplate.domain.member.Member;
 import io.nexgrid.bizcoretemplate.domain.member.repository.MemberRepository;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.security.core.userdetails.UserDetails;
