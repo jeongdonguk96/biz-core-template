@@ -4,12 +4,17 @@ import io.nexgrid.bizcoretemplate.domain.access.Access;
 import io.nexgrid.bizcoretemplate.domain.access.repository.AccessRepository;
 import io.nexgrid.bizcoretemplate.domain.member.Member;
 import io.nexgrid.bizcoretemplate.util.DateUtil;
+import io.nexgrid.bizcoretemplate.util.LogUtil;
 import jakarta.servlet.http.HttpServletRequest;
 import jakarta.servlet.http.HttpSession;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.aspectj.lang.JoinPoint;
 import org.aspectj.lang.annotation.After;
 import org.aspectj.lang.annotation.Aspect;
+import org.aspectj.lang.annotation.Before;
+import org.aspectj.lang.annotation.Pointcut;
+import org.slf4j.MDC;
 import org.springframework.stereotype.Component;
 
 import java.net.Inet6Address;
@@ -27,14 +32,26 @@ public class AccessAspect {
     private final HttpServletRequest request;
     private final AccessRepository accessRepository;
 
-    @After("@within(org.springframework.stereotype.Controller) && @within(org.springframework.web.bind.annotation.RestController)")
-    public void saveAccessData() throws UnknownHostException {
+    @Pointcut("@within(org.springframework.stereotype.Controller)")
+    public void controller(){};
+
+    @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
+    public void restController(){};
+
+    @Before("controller() || restController()")
+    public void beforeAPI(JoinPoint joinPoint) throws UnknownHostException {
+        String apiName = joinPoint.getSignature().getName();
+        String seqId = LogUtil.generateSeqId();
+        MDC.put("seqId", seqId);
+
+        log.info("[{}] ========== {} START ==========", seqId, apiName);
+
         String requestUri = request.getRequestURI();
-        String accessor = getAccessorEmail();
+        String accessor = getAccessorUsername();
         String accessorIp = request.getRemoteAddr();
 
-        System.out.println("요청드러왔따");
-        
+        log.info("[{}] path = {}, accessor = {}, accessorIp = {}", seqId, requestUri, accessor, accessorIp);
+
         // Ipv6인 경우 Ipv4로 변환한다.
         if (InetAddress.getByName(accessorIp) instanceof Inet6Address) {
             InetAddress inetAddress = InetAddress.getByName(accessorIp);
@@ -57,12 +74,24 @@ public class AccessAspect {
                 .accessTime(ZonedDateTime.now(ZoneId.of("Asia/Seoul")).toString())
                 .build();
 
-        accessRepository.save(newAccess);
+        Access access = accessRepository.save(newAccess);
+
+        log.info("[{}] Mongo DB INSERT 완료, 데이터 = {}", seqId, access);
+    }
+
+    @After("controller() || restController()")
+    public void AfterAPI(JoinPoint joinPoint) {
+        String apiName = joinPoint.getSignature().getName();
+        String seqId = MDC.get("seqId");
+
+        log.info("[{}] ========== {} END ==========", seqId, apiName);
+
+        MDC.remove("seqId");
     }
 
 
     // 요청자의 이메일을 가져온다.
-    private String getAccessorEmail() {
+    private String getAccessorUsername() {
         HttpSession session = request.getSession();
 
         if (session.getAttribute("member") == null) {
@@ -70,7 +99,7 @@ public class AccessAspect {
 
         } else {
             Member member = (Member) session.getAttribute("member");
-            return member.getEmail();
+            return member.getUsername();
         }
     }
 

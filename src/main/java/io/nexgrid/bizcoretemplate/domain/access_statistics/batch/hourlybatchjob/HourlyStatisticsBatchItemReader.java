@@ -18,7 +18,7 @@ public class HourlyStatisticsBatchItemReader implements ItemReader<List<String>>
     public List<String> read()  {
         if (isRun) {
             List<String> accessResources = accessRepository.findDistinctAccessResource();
-            log.info("몽고DB에서 Access 컬렉션의 accessResources를 가져옵니다. accessResources distinct size = ${}", accessResources.size());
+            log.info("몽고DB에서 Access 컬렉션의 accessResources를 가져옵니다. accessResources distinct size = {}", accessResources.size());
             isRun = false;
 
             return accessResources;

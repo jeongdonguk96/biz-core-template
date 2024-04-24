@@ -24,7 +24,7 @@ public class HourlyStatisticsBatchItemProcessor implements ItemProcessor<List<St
 
         items.forEach(
                 item -> {
-                    Integer count = accessRepository.countByHourly(item, "20240419", "17");
+                    Integer count = accessRepository.countByHourly(item, day, hour);
                     System.out.println("path = " + item + ", count = " + count);
                     accessMap.put(item, count);
                 }
