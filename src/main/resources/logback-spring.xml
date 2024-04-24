@@ -13,8 +13,9 @@
         <property name="LOG_PATH" value=""/>
     </springProfile>
 
-    <!-- log file name -->
-    <!-- err log file name -->
+    <!-- service log file name -->
+    <!-- error log file name -->
+    <!-- oms log file name -->
     <!-- console log pattern -->
     <!-- file log pattern -->
     <property name="SERVICE_LOG_FILE_NAME" value="nct"/>
