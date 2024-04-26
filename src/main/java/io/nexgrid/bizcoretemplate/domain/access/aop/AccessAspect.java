@@ -70,7 +70,7 @@ public class AccessAspect {
 
         } else {
             Member member = (Member) session.getAttribute("member");
-            return member.getEmail();
+            return member.getUsername();
         }
     }
 

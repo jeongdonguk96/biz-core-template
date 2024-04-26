@@ -37,17 +37,36 @@ public class SecurityConfig {
                 // .anyRequest().authenticated() // 지정한 요청 외의 나머지 모든 요청은 인증된 사람만
             );
 
-        http // 권한이없는 유저인 경우 redirection
-            .formLogin((auth) -> auth.loginPage("/members/login")
-                .loginProcessingUrl("/members/login")
-                .defaultSuccessUrl("/members")
-                .usernameParameter("email") // email로 login id 설정
+        http // 로그인 설정
+            .formLogin((auth) -> auth
+                .loginPage("/members/login") // 권한이없는 유저인 경우 redirection
+                .loginProcessingUrl("/members/login") // 로그인 요청 process
+                .defaultSuccessUrl("/members") // 로그인 성공시
+                .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()
             );
 
         http // security 자동설정 되어있는 사이트 위변조 방지 설정
-            .csrf((auth) -> auth.disable());
+            .csrf((auth) -> auth.disable()); // 개발환경 설정
+
+
+        http // 스프링 동시 세션제어
+            .sessionManagement((auth) -> auth
+            .maximumSessions(1) // 최대 세션허용 갯수 (다중로그인)
+            .maxSessionsPreventsLogin(true) // 세션 허용갯수 초과시 처리 (true - 새로운세션 차단 / false - 기존세션 삭제)
+            // .expiredUrl("/members/login") // TODO 세션 만료시 요청 URL
+            );
+
+        http
+            .sessionManagement((auth) -> auth
+            .sessionFixation().changeSessionId()); // 동일한 세션에 대한 ID 변경 (쿠키를 이용한 세션탈취 방어)
+
+//        http // 세션정책 설정
+//            .sessionManagement((auth) -> auth
+//            .sessionCreationPolicy(SessionCreationPolicy.ALWAYS)
+//            // Always - 시큐리티가 항상 생성 / Required - 필요시 생성(default) / Never - 생성하진 않지만 존재하면 사용 / Stateless - 생성 X, 사용 X (ex. JWT)
+//            );
 
         return http.build();
     }

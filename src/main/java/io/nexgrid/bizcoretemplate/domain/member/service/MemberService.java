@@ -26,8 +26,10 @@ public class MemberService {
     public void signUpProcess(SignUpDTO signUpDTO) {
 
         Member member = Member.builder()
-                .email(signUpDTO.getEmail())
+                .username(signUpDTO.getUsername())
                 .password(bCryptPasswordEncoder.encode(signUpDTO.getPassword()))
+                .name(signUpDTO.getName())
+                // TODO
                 .role(Role.ROOT)
                 .build();
 
