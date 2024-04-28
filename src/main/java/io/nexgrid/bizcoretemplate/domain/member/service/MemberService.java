@@ -29,7 +29,7 @@ public class MemberService {
                 .username(signUpDTO.getUsername())
                 .password(bCryptPasswordEncoder.encode(signUpDTO.getPassword()))
                 .name(signUpDTO.getName())
-                // TODO
+                // TODO 회원가입 처리
                 .role(Role.ROOT)
                 .build();
 
