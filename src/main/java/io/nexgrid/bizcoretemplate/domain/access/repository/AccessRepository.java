@@ -4,7 +4,4 @@ import io.nexgrid.bizcoretemplate.domain.access.Access;
 import org.springframework.data.mongodb.repository.MongoRepository;
 
 public interface AccessRepository extends MongoRepository<Access, String>, AccessRepositoryCustom {
-
-    Integer countByAccessResourceAndAccessDayAndAccessHour(String accessResource, String accessDay, String accessHour);
-
 }

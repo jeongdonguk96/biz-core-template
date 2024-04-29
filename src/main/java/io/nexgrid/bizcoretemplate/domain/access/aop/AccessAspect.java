@@ -42,10 +42,13 @@ public class AccessAspect {
     public void beforeAPI(JoinPoint joinPoint) throws UnknownHostException {
         String apiName = joinPoint.getSignature().getName();
         String seqId = LogUtil.generateSeqId();
+
+        // MDC: 스레드-세이프한 로깅 컨텍스트
         MDC.put("seqId", seqId);
 
         log.info("[{}] ========== {} START ==========", seqId, apiName);
 
+        // HttpServletRequest 객체에서 요청에 대한 정보를 가져온다.
         String requestUri = request.getRequestURI();
         String accessor = getAccessorUsername();
         String accessorIp = request.getRemoteAddr();
@@ -85,6 +88,7 @@ public class AccessAspect {
         String seqId = MDC.get("seqId");
 
         log.info("[{}] ========== {} END ==========", seqId, apiName);
+        log.info("");
 
         MDC.remove("seqId");
     }
