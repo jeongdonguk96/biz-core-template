@@ -1,4 +1,4 @@
-package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.dailybatchjob;
+package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.monthlybatchjob;
 
 import io.nexgrid.bizcoretemplate.domain.access_statistics.dto.AccessStatisticsDto;
 import lombok.RequiredArgsConstructor;
@@ -11,7 +11,7 @@ import java.util.stream.Collectors;
 
 @Slf4j
 @RequiredArgsConstructor
-public class DailyStatisticsBatchItemProcessor implements ItemProcessor<List<AccessStatisticsDto>, Map<String, Integer>> {
+public class MonthlyStatisticsBatchItemProcessor implements ItemProcessor<List<AccessStatisticsDto>, Map<String, Integer>> {
 
     @Override
     public Map<String, Integer> process(List<AccessStatisticsDto> items) {

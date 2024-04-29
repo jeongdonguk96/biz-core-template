@@ -25,7 +25,7 @@ public class MongoDBConfig {
                 .applyConnectionString(connection)
                 .applyToConnectionPoolSettings(builder ->
                         builder
-                            .minSize(Integer.parseInt(env.getProperty("spring.data.mongodb.min-idle")))
+                            .minSize(Integer.parseInt(env.getProperty("spring.data.mongodb.min-size")))
                             .maxSize(Integer.parseInt(env.getProperty("spring.data.mongodb.max-size")))
                 )
                 .build();

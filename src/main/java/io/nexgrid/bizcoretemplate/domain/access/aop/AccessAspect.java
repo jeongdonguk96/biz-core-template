@@ -33,10 +33,10 @@ public class AccessAspect {
     private final AccessRepository accessRepository;
 
     @Pointcut("@within(org.springframework.stereotype.Controller)")
-    public void controller(){};
+    public void controller(){}
 
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
-    public void restController(){};
+    public void restController(){}
 
     @Before("controller() || restController()")
     public void beforeAPI(JoinPoint joinPoint) throws UnknownHostException {

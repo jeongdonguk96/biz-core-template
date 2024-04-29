@@ -38,6 +38,7 @@ public class JobListener implements JobExecutionListener {
         return switch (jobName) {
             case "hourlyStatisticsBatchJob" -> "시간별 접속 통계 배치 프로그램";
             case "dailyStatisticsBatchJob" -> "일별 접속 통계 배치 프로그램";
+            case "monthlyStatisticsBatchJob" -> "월별 접속 통계 배치 프로그램";
             default -> jobName;
         };
     }

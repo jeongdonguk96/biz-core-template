@@ -1,4 +1,4 @@
-package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.hourlybatchjob;
+package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.monthlybatchjob;
 
 import io.nexgrid.bizcoretemplate.domain.access_statistics.AccessStatistics;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.LoginType;
@@ -16,7 +16,7 @@ import java.util.Map;
 
 @Slf4j
 @RequiredArgsConstructor
-public class HourlyStatisticsBatchItemWriter implements ItemWriter<Map<String, Integer>> {
+public class MonthlyStatisticsBatchItemWriter implements ItemWriter<Map<String, Integer>> {
 
     private final AccessStatisticsRepository accessStatisticsRepository;
 
@@ -27,11 +27,11 @@ public class HourlyStatisticsBatchItemWriter implements ItemWriter<Map<String, I
         for (Map<String, Integer> map : chunkMap) {
             map.entrySet().stream()
                     .map(entry -> AccessStatistics.builder()
-                            .statisticsType(StatisticsType.HOURLY)
+                            .statisticsType(StatisticsType.MONTHLY)
                             .loginType(LoginType.TOTAL)
                             .accessResource(entry.getKey())
                             .accessCount(entry.getValue())
-                            .statisticsStamp(DateUtil.getOneHourAgo2())
+                            .statisticsStamp(DateUtil.getPreviousMonth())
                             .build())
                     .forEach(accessStatisticsList::add);
         }

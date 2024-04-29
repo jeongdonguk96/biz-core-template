@@ -26,7 +26,7 @@ public class AccessRepositoryCustomImpl implements AccessRepositoryCustom {
 
     // 몽고DB에서 모든 path에 대한 시간별 접근 횟수를 가져온다.
     @Override
-    public Integer countByHourly(String accessResource, String accessDay, String accessHour) {
+    public Integer countHourlyAccessByAccessResource(String accessResource, String accessDay, String accessHour) {
         Query countQuery = new Query();
         countQuery.addCriteria(Criteria.where("accessResource").is(accessResource)
                 .and("accessDay").is(accessDay)
