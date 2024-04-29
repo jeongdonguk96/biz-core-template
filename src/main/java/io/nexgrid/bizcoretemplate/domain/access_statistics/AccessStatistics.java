@@ -2,7 +2,7 @@ package io.nexgrid.bizcoretemplate.domain.access_statistics;
 
 import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.LoginType;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.StatisticsType;
-import io.nexgrid.bizcoretemplate.entity.BaseEntity;
+import io.nexgrid.bizcoretemplate.domain.BaseEntity;
 import jakarta.persistence.*;
 import lombok.*;
 

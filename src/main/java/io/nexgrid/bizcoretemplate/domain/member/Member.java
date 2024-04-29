@@ -1,7 +1,7 @@
 package io.nexgrid.bizcoretemplate.domain.member;
 
 import io.nexgrid.bizcoretemplate.domain.board.Board;
-import io.nexgrid.bizcoretemplate.entity.BaseEntity;
+import io.nexgrid.bizcoretemplate.domain.BaseEntity;
 import io.nexgrid.bizcoretemplate.domain.member.enums.Gender;
 import io.nexgrid.bizcoretemplate.domain.member.enums.Role;
 import io.nexgrid.bizcoretemplate.domain.member.enums.UserStatus;

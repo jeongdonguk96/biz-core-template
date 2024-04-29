@@ -1,4 +1,4 @@
-package io.nexgrid.bizcoretemplate.entity;
+package io.nexgrid.bizcoretemplate.domain;
 
 import jakarta.persistence.Column;
 import jakarta.persistence.EntityListeners;

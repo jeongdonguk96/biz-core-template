@@ -2,7 +2,8 @@ package io.nexgrid.bizcoretemplate.domain.access_statistics.repository;
 
 import com.querydsl.core.types.dsl.BooleanExpression;
 import com.querydsl.jpa.impl.JPAQueryFactory;
-import io.nexgrid.bizcoretemplate.domain.access_statistics.dto.AccessStatisticsDto;import io.nexgrid.bizcoretemplate.domain.access_statistics.batch.dto.QAccessStatisticsDto;
+import io.nexgrid.bizcoretemplate.domain.access_statistics.dto.AccessStatisticsDto;
+import io.nexgrid.bizcoretemplate.domain.access_statistics.dto.QAccessStatisticsDto;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.StatisticsType;
 import lombok.RequiredArgsConstructor;
 
