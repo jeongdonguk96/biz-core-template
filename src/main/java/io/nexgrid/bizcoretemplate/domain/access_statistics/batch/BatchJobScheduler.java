@@ -18,6 +18,7 @@ public class BatchJobScheduler {
     private final JobLauncher jobLauncher;
     private final Job hourlyStatisticsBatchJob;
     private final Job dailyStatisticsBatchJob;
+    private final Job monthlyStatisticsBatchJob;
 
 
     @Scheduled(cron = "${spring.batch.hourly-statistics-job-cron}")
@@ -39,6 +40,21 @@ public class BatchJobScheduler {
     public void runDailyStatisticsBatchJob() {
         try {
             jobLauncher.run(dailyStatisticsBatchJob, new JobParameters());
+        } catch (JobExecutionAlreadyRunningException e) {
+            throw new RuntimeException(e);
+        } catch (JobRestartException e) {
+            throw new RuntimeException(e);
+        } catch (JobInstanceAlreadyCompleteException e) {
+            throw new RuntimeException(e);
+        } catch (JobParametersInvalidException e) {
+            throw new RuntimeException(e);
+        }
+    }
+
+    @Scheduled(cron = "${spring.batch.monthly-statistics-job-cron}")
+    public void runMonthlyStatisticsBatchJob() {
+        try {
+            jobLauncher.run(monthlyStatisticsBatchJob, new JobParameters());
         } catch (JobExecutionAlreadyRunningException e) {
             throw new RuntimeException(e);
         } catch (JobRestartException e) {

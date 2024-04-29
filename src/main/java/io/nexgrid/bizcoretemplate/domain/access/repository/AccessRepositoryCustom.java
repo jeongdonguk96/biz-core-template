@@ -6,5 +6,5 @@ public interface AccessRepositoryCustom {
 
     List<String> findDistinctAccessResource();
 
-    Integer countByHourly(String accessResource, String accessDay, String accessHour);
+    Integer countHourlyAccessByAccessResource(String accessResource, String accessDay, String accessHour);
 }

@@ -1,10 +1,11 @@
 package io.nexgrid.bizcoretemplate.domain.access_statistics.repository;
 
-import io.nexgrid.bizcoretemplate.domain.access_statistics.batch.dailybatchjob.HourlyAccessStatisticsDto;
+import io.nexgrid.bizcoretemplate.domain.access_statistics.dto.AccessStatisticsDto;
+import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.StatisticsType;
 
 import java.util.List;
 
 public interface AccessStatisticsRepositoryCustom {
 
-    List<HourlyAccessStatisticsDto> getYesterdayAccessStatistics();
+    List<AccessStatisticsDto> getAccessStatisticsByStatisticsType(String date, StatisticsType statisticsType);
 }

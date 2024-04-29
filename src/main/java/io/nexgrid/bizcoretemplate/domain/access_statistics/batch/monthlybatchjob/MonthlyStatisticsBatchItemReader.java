@@ -1,4 +1,4 @@
-package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.dailybatchjob;
+package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.monthlybatchjob;
 
 import io.nexgrid.bizcoretemplate.domain.access_statistics.dto.AccessStatisticsDto;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.enums.StatisticsType;
@@ -13,7 +13,7 @@ import java.util.List;
 
 @Slf4j
 @RequiredArgsConstructor
-public class DailyStatisticsBatchItemReader implements ItemReader<List<AccessStatisticsDto>> {
+public class MonthlyStatisticsBatchItemReader implements ItemReader<List<AccessStatisticsDto>> {
 
     private final AccessStatisticsRepository accessStatisticsRepository;
     private boolean isRun = true;
@@ -23,12 +23,12 @@ public class DailyStatisticsBatchItemReader implements ItemReader<List<AccessSta
         String seqId = MDC.get("seqId");
 
         if (isRun) {
-            String yesterday = DateUtil.getYesterday();
-            List<AccessStatisticsDto> yesterdayAccessStatistics = accessStatisticsRepository.getAccessStatisticsByStatisticsType(yesterday, StatisticsType.HOURLY);
-            log.info("[{}] 마리아DB에서 AccessStatistics 엔티티에서 전날 일별 통계 데이터를 가져옵니다. yesterdayAccessStatistics size = {}", seqId, yesterdayAccessStatistics.size());
+            String previousMonth = DateUtil.getPreviousMonth();
+            List<AccessStatisticsDto> previousMonthAccessStatistics = accessStatisticsRepository.getAccessStatisticsByStatisticsType(previousMonth, StatisticsType.DAILY);
+            log.info("[{}] 마리아DB에서 AccessStatistics 엔티티에서 전월 월별 통계 데이터를 가져옵니다. previousMonthAccessStatistics size = {}", seqId, previousMonthAccessStatistics.size());
             isRun = false;
 
-            return yesterdayAccessStatistics;
+            return previousMonthAccessStatistics;
         } else {
             isRun = true;
             return null;

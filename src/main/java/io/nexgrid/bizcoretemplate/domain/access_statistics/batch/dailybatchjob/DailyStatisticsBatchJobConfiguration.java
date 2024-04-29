@@ -1,5 +1,6 @@
 package io.nexgrid.bizcoretemplate.domain.access_statistics.batch.dailybatchjob;
 
+import io.nexgrid.bizcoretemplate.domain.access_statistics.dto.AccessStatisticsDto;
 import io.nexgrid.bizcoretemplate.domain.access_statistics.repository.AccessStatisticsRepository;
 import lombok.RequiredArgsConstructor;
 import org.springframework.batch.core.Job;
@@ -23,10 +24,10 @@ import java.util.Map;
 @RequiredArgsConstructor
 public class DailyStatisticsBatchJobConfiguration {
 
-    private final PlatformTransactionManager transactionManager;
     private final JobRepository jobRepository;
-    private final AccessStatisticsRepository accessStatisticsRepository;
     private final JobExecutionListener jobListener;
+    private final PlatformTransactionManager transactionManager;
+    private final AccessStatisticsRepository accessStatisticsRepository;
 
 
     @Bean
@@ -50,12 +51,12 @@ public class DailyStatisticsBatchJobConfiguration {
     }
 
     @Bean
-    public ItemReader<List<HourlyAccessStatisticsDto>> dailyStatisticsItemReader() {
+    public ItemReader<List<AccessStatisticsDto>> dailyStatisticsItemReader() {
         return new DailyStatisticsBatchItemReader(accessStatisticsRepository);
     }
 
     @Bean
-    public ItemProcessor<? super List<HourlyAccessStatisticsDto>, Map<String, Integer>> dailyStatisticsItemProcessor() {
+    public ItemProcessor<? super List<AccessStatisticsDto>, Map<String, Integer>> dailyStatisticsItemProcessor() {
         return new DailyStatisticsBatchItemProcessor();
     }
 

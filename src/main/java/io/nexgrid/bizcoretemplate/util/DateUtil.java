@@ -31,7 +31,7 @@ public class DateUtil {
 
     // 전월을 계산한다.
     public static String getPreviousMonth() {
-        SimpleDateFormat formatter = new SimpleDateFormat("MM");
+        SimpleDateFormat formatter = new SimpleDateFormat("yyyyMM");
         Calendar calendar = Calendar.getInstance();
         calendar.add(Calendar.MONTH, -1); // 현재 월에서 1달을 빼준다.
 
@@ -73,9 +73,10 @@ public class DateUtil {
     }
 
     // 현재 시간을 계산한다.
-    public static String getNow() {
+    public static String getOneHourAgo2() {
         SimpleDateFormat formatter = new SimpleDateFormat("yyyyMMddHH");
         Calendar calendar = Calendar.getInstance();
+        calendar.add(Calendar.HOUR_OF_DAY, -1);
 
         return formatter.format(calendar.getTime());
     }
