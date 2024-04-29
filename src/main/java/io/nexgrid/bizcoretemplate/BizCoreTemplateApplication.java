@@ -8,8 +8,8 @@ import org.springframework.scheduling.annotation.EnableScheduling;
 
 @EnableScheduling
 @EnableJpaAuditing
-@EnableMongoRepositories
 @SpringBootApplication
+@EnableMongoRepositories
 public class BizCoreTemplateApplication {
 
 	public static void main(String[] args) {

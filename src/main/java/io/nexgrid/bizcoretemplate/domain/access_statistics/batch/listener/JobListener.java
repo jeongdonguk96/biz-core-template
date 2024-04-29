@@ -22,7 +22,6 @@ public class JobListener implements JobExecutionListener {
 
         // MDC: 스레드-세이프한 로깅 컨텍스트
         MDC.put("seqId", seqId);
-
         log.info("[{}] ========== {} 동작 START ==========", seqId, jobName);
         startTime = System.currentTimeMillis();
     }

@@ -32,9 +32,9 @@ public class AccessAspect {
     private final HttpServletRequest request;
     private final AccessRepository accessRepository;
 
+    // @Controller와 @RestController 어노테이션을 포인트컷으로 지정한다.
     @Pointcut("@within(org.springframework.stereotype.Controller)")
     public void controller(){}
-
     @Pointcut("@within(org.springframework.web.bind.annotation.RestController)")
     public void restController(){}
 
@@ -45,7 +45,6 @@ public class AccessAspect {
 
         // MDC: 스레드-세이프한 로깅 컨텍스트
         MDC.put("seqId", seqId);
-
         log.info("[{}] ========== {} START ==========", seqId, apiName);
 
         // HttpServletRequest 객체에서 요청에 대한 정보를 가져온다.

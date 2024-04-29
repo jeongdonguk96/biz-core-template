@@ -23,23 +23,22 @@ public class BatchJobScheduler {
 
     @Scheduled(cron = "${spring.batch.hourly-statistics-job-cron}")
     public void runHourlyStatisticsBatchJob() {
-        try {
-            jobLauncher.run(hourlyStatisticsBatchJob, new JobParameters());
-        } catch (JobExecutionAlreadyRunningException e) {
-            throw new RuntimeException(e);
-        } catch (JobRestartException e) {
-            throw new RuntimeException(e);
-        } catch (JobInstanceAlreadyCompleteException e) {
-            throw new RuntimeException(e);
-        } catch (JobParametersInvalidException e) {
-            throw new RuntimeException(e);
-        }
+        runJob(hourlyStatisticsBatchJob);
     }
 
     @Scheduled(cron = "${spring.batch.daily-statistics-job-cron}")
     public void runDailyStatisticsBatchJob() {
+        runJob(dailyStatisticsBatchJob);
+    }
+
+    @Scheduled(cron = "${spring.batch.monthly-statistics-job-cron}")
+    public void runMonthlyStatisticsBatchJob() {
+        runJob(monthlyStatisticsBatchJob);
+    }
+
+    private void runJob(Job job) {
         try {
-            jobLauncher.run(dailyStatisticsBatchJob, new JobParameters());
+            jobLauncher.run(job, new JobParameters());
         } catch (JobExecutionAlreadyRunningException e) {
             throw new RuntimeException(e);
         } catch (JobRestartException e) {
@@ -51,18 +50,4 @@ public class BatchJobScheduler {
         }
     }
 
-    @Scheduled(cron = "${spring.batch.monthly-statistics-job-cron}")
-    public void runMonthlyStatisticsBatchJob() {
-        try {
-            jobLauncher.run(monthlyStatisticsBatchJob, new JobParameters());
-        } catch (JobExecutionAlreadyRunningException e) {
-            throw new RuntimeException(e);
-        } catch (JobRestartException e) {
-            throw new RuntimeException(e);
-        } catch (JobInstanceAlreadyCompleteException e) {
-            throw new RuntimeException(e);
-        } catch (JobParametersInvalidException e) {
-            throw new RuntimeException(e);
-        }
-    }
 }
