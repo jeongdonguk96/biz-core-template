@@ -13,14 +13,13 @@ import lombok.*;
 @NoArgsConstructor
 @AllArgsConstructor
 public class AccessStatistics extends BaseEntity {
-    @Id
-    @GeneratedValue(strategy = GenerationType.IDENTITY)
+    @Id @GeneratedValue(strategy = GenerationType.IDENTITY)
     private Long id;
     @Enumerated(EnumType.STRING)
     private StatisticsType statisticsType;
     @Enumerated(EnumType.STRING)
     private LoginType loginType;
     private String accessResource;
-    private int accessorCount;
+    private int accessCount;
     private String statisticsStamp; // hourly: getNow(), daily: getDay(), monthly: getMonth()
 }
