@@ -1,6 +1,6 @@
 package io.nexgrid.bizcoretemplate.handler.exception;
 
-import io.nexgrid.bizcoretemplate.entity.ResultCode;
+import io.nexgrid.bizcoretemplate.constant.ResultCode;
 import lombok.Getter;
 
 import java.io.Serial;

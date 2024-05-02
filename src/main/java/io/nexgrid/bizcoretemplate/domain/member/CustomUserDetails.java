@@ -1,11 +1,13 @@
 package io.nexgrid.bizcoretemplate.domain.member;
 
+import lombok.extern.slf4j.Slf4j;
 import org.springframework.security.core.GrantedAuthority;
 import org.springframework.security.core.userdetails.UserDetails;
 
 import java.util.ArrayList;
 import java.util.Collection;
 
+@Slf4j
 public class CustomUserDetails implements UserDetails {
 
     private Member member;
@@ -20,12 +22,9 @@ public class CustomUserDetails implements UserDetails {
         // 사용자 권한 확인
         Collection<GrantedAuthority> collection = new ArrayList<>();
 
-        collection.add(new GrantedAuthority() {
-            @Override
-            public String getAuthority() {
-                System.out.println("### Member get Role : "+member.getRole().toString());
-                return "ROLE_"+member.getRole(); // security 인터페이스에 ROLE_ 접두사가 붙어있어 맞춰줌
-            }
+        collection.add((GrantedAuthority) () -> {
+            log.info("### Member get Role : {}", member.getRole().toString());
+            return "ROLE_"+member.getRole(); // security 인터페이스에 ROLE_ 접두사가 붙어있어 맞춰줌
         });
         return collection;
     }
