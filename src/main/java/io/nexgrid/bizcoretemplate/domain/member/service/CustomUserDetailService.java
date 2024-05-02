@@ -20,10 +20,10 @@ public class CustomUserDetailService implements UserDetailsService {
     }
 
     @Override
-    public UserDetails loadUserByUsername(String email) throws UsernameNotFoundException {
+    public UserDetails loadUserByUsername(String username) throws UsernameNotFoundException {
 
         try {
-            Member userData = memberRepository.findByEmail(email);
+            Member userData = memberRepository.findByUsername(username);
             System.out.println("######################### Login UserInfo : "+userData.toString());
 
             if (userData != null) {

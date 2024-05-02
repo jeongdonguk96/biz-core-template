@@ -5,7 +5,12 @@ import org.springframework.data.jpa.repository.JpaRepository;
 
 public interface MemberRepository extends JpaRepository<Member, Long>, MemberRepositoryCustom {
 
-    Member findByEmail(String email);
+    Member findByUsername(String username);
     // Member field에 존재하는 값으로 메소드 작명
+
+//    에러처리 예시
+//    Member member = memberRepository.findByRefreshToken(token)
+//            .orElseThrow(() -> new MemberException(ErrorCode.INVALID_TOKEN));
+
 
 }
