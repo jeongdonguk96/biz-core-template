@@ -1,7 +1,7 @@
 package io.nexgrid.bizcoretemplate.domain.member;
 
-import io.nexgrid.bizcoretemplate.domain.board.Board;
 import io.nexgrid.bizcoretemplate.domain.BaseEntity;
+import io.nexgrid.bizcoretemplate.domain.board.Board;
 import io.nexgrid.bizcoretemplate.domain.member.enums.Gender;
 import io.nexgrid.bizcoretemplate.domain.member.enums.Role;
 import io.nexgrid.bizcoretemplate.domain.member.enums.UserStatus;
@@ -54,9 +54,6 @@ public class Member extends BaseEntity implements Serializable {
     private String passwordModifiedDate; // 비밀번호 변경날짜
 
     private String lastLoginDate; // 마지막 로그인 날짜
-
-    @Column(nullable = false)
-    private String joinDate; // 가입날짜 (YYYY-MM-DD hh:mm:ss)
 
     @OneToMany(mappedBy = "writer", fetch = FetchType.LAZY)
     private List<Board> boardList = new ArrayList<>(); // 작성 게시물

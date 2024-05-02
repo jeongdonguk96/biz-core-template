@@ -1,6 +1,5 @@
-package io.nexgrid.bizcoretemplate.entity;
+package io.nexgrid.bizcoretemplate.constant;
 
-import jakarta.persistence.Access;
 import lombok.AllArgsConstructor;
 import lombok.Getter;
 

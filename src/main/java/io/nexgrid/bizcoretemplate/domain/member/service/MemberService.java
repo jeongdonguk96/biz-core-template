@@ -3,20 +3,18 @@ package io.nexgrid.bizcoretemplate.domain.member.service;
 import io.nexgrid.bizcoretemplate.domain.member.Member;
 import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDto;
 import io.nexgrid.bizcoretemplate.domain.member.repository.MemberRepository;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.stereotype.Service;
+import org.springframework.transaction.annotation.Transactional;
 
 import java.util.List;
 
 @Service
+@Transactional
+@RequiredArgsConstructor
 public class MemberService {
 
-    private MemberRepository memberRepository;
-
-    @Autowired
-    public MemberService(MemberRepository memberRepository) {
-        this.memberRepository = memberRepository;
-    }
+    private final MemberRepository memberRepository;
 
     public void signUpProcess(SignUpDto signUpDto) {
 

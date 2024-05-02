@@ -6,14 +6,14 @@ import io.nexgrid.bizcoretemplate.domain.member.enums.Role;
 import jakarta.validation.constraints.Max;
 import jakarta.validation.constraints.NotBlank;
 import lombok.Data;
-import org.springframework.beans.factory.annotation.Autowired;
+import lombok.RequiredArgsConstructor;
 import org.springframework.security.crypto.bcrypt.BCryptPasswordEncoder;
 
 @Data
+@RequiredArgsConstructor
 public class SignUpDto {
 
-    @Autowired
-    private BCryptPasswordEncoder bCryptPasswordEncoder;
+    private final BCryptPasswordEncoder bCryptPasswordEncoder;
 
     /*
         Validation 어노테이션 문서
@@ -31,19 +31,17 @@ public class SignUpDto {
     private String gender; // 성별 (MALE-남, FEMALE-여, NONE-식별불가)
     @NotBlank
     private String role; // 유저 권한 (NORMAL-유저, ROOT-관리자)
-    @NotBlank
-    private String joinDate; // 가입날짜 (YYYY-MM-DD hh:mm:ss)
 
     public Member signUpEntity() {
         return Member.builder()
                 .username(userName)
-                .password(passWord)
+                .password(bCryptPasswordEncoder.encode(passWord))
                 .name(name)
                 .birth(birth)
                 .gender(Gender.valueOf(gender))
                 //TODO IllegalArgumentException을 던지기 때문에 Validator 커스텀해야함
                 .role(Role.valueOf(role))
-                .joinDate(joinDate)
                 .build();
     }
+
 }
