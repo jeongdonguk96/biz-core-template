@@ -63,6 +63,13 @@ public class ControllerExceptionHandler {
     @ExceptionHandler(Exception.class)
     protected ResponseEntity<ResultDto<Object>> handleException(Exception ex) {
         ResultCode errorCode = ResultCode.FAIL;
+
+        System.out.println("----------------------------------------------------------------------------------------------------");
+        System.out.println("Exception 발생 : "+ex.toString()+", "+ex.getMessage());
+        System.out.println("ErrorCode : "+errorCode.getCode()+", "+errorCode.getMessage());
+        System.out.println(ex.getStackTrace()[0]+"\n\t"+ex.getStackTrace()[1]+"\n\t"+ex.getStackTrace()[2]+"\n\t"+ex.getStackTrace()[3]+"\n\t"+ex.getStackTrace()[4]); // 5줄까지만 찍기
+        System.out.println("----------------------------------------------------------------------------------------------------");
+
         return ResponseEntity.ok(ResultDto.resultSet(errorCode.getCode()
                                                     , errorCode.getMessage()));
     }

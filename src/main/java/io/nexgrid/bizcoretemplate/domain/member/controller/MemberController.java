@@ -1,23 +1,17 @@
 package io.nexgrid.bizcoretemplate.domain.member.controller;
 
-import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDTO;
+import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDto;
 import io.nexgrid.bizcoretemplate.domain.member.service.MemberService;
 import io.nexgrid.bizcoretemplate.entity.ResultCode;
 import io.nexgrid.bizcoretemplate.entity.ResultDto;
-import jakarta.validation.Valid;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.ResponseEntity;
-import org.springframework.security.core.Authentication;
-import org.springframework.security.core.GrantedAuthority;
-import org.springframework.security.core.context.SecurityContextHolder;
-import org.springframework.ui.Model;
 import org.springframework.validation.BindingResult;
-import org.springframework.validation.FieldError;
-import org.springframework.web.bind.MethodArgumentNotValidException;
-import org.springframework.web.bind.annotation.*;
-
-import java.util.Collection;
-import java.util.Iterator;
+import org.springframework.validation.annotation.Validated;
+import org.springframework.web.bind.annotation.PostMapping;
+import org.springframework.web.bind.annotation.RequestBody;
+import org.springframework.web.bind.annotation.RequestMapping;
+import org.springframework.web.bind.annotation.RestController;
 
 @RestController
 @RequestMapping("/members")
@@ -52,7 +46,7 @@ public class MemberController {
 //    }
 
     @PostMapping("/signup")
-    public ResponseEntity<ResultDto<Object>> signUpRequest(@Valid @RequestBody SignUpDTO signUpDTO,
+    public ResponseEntity<ResultDto<Object>> signUpRequest(@Validated @RequestBody SignUpDto signUpDTO,
                                         BindingResult bindingResult) throws Exception {
         // Validation DTO에 명시 (Validation 실패시 예외 핸들러가 처리)
         // application/json; charset=UTF-8 요청
