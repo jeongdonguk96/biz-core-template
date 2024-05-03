@@ -11,7 +11,7 @@ import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
 
 @Slf4j
-@RestControllerAdvice // 모든컨트롤러 Exception 발생시 이쪽으로 intercept
+@RestControllerAdvice // 모든Rest컨트롤러 Exception 발생시 이쪽으로 intercept
 public class ControllerExceptionHandler {
 
     // https://velog.io/@kiiiyeon/%EC%8A%A4%ED%94%84%EB%A7%81-ExceptionHandler%EB%A5%BC-%ED%86%B5%ED%95%9C-%EC%98%88%EC%99%B8%EC%B2%98%EB%A6%AC

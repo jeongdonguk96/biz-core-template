@@ -35,7 +35,7 @@ public class Member extends BaseEntity implements Serializable {
     private String domain; // 도메인명 (접속기록용)
 
     @Column(nullable = false)
-    private String birth; // 생년월일 (YYYY-MM-DD)
+    private String birth; // 생년월일 (YYYYMMDD)
 
     @Enumerated(EnumType.STRING) @Column(nullable = false)
     private Gender gender; // 성별 (MALE-남, FEMALE-여, NONE-식별불가)

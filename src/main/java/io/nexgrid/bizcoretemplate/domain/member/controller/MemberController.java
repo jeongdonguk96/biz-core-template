@@ -4,6 +4,7 @@ import io.nexgrid.bizcoretemplate.constant.ResultCode;
 import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDto;
 import io.nexgrid.bizcoretemplate.domain.member.service.MemberService;
 import io.nexgrid.bizcoretemplate.dto.ResponseDto;
+import jakarta.validation.Valid;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
 import org.springframework.http.ResponseEntity;
@@ -46,12 +47,12 @@ public class MemberController {
 //    }
 
     @PostMapping("/signup")
-    public ResponseEntity<ResponseDto<Object>> signUpRequest(@Validated @RequestBody SignUpDto signUpDTO,
+    public ResponseEntity<ResponseDto<Object>> signUpRequest(@Valid @RequestBody SignUpDto signUpDTO,
                                                              BindingResult bindingResult) throws Exception {
         // Validation DTO에 명시 (Validation 실패시 예외 핸들러가 처리)
         // application/json; charset=UTF-8 요청
 
-        log.info("▷ SignUp Request : {}", signUpDTO.toString());
+        log.info("▷▷▷ SignUp Request : {}", signUpDTO.toString());
 
         // TODO 필수파라미터 검증 추가
 
@@ -67,7 +68,7 @@ public class MemberController {
         memberService.signUpProcess(signUpDTO);
 
         return ResponseEntity.ok(ResponseDto.resultSet(ResultCode.SUCCESS.getCode()
-                , ResultCode.SUCCESS.getMessage()));
+                                                    , ResultCode.SUCCESS.getMessage()));
     }
 
 
