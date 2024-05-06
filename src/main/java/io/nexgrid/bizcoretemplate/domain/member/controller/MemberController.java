@@ -4,9 +4,10 @@ import io.nexgrid.bizcoretemplate.constant.ResultCode;
 import io.nexgrid.bizcoretemplate.domain.member.dto.SignUpDto;
 import io.nexgrid.bizcoretemplate.domain.member.service.MemberService;
 import io.nexgrid.bizcoretemplate.dto.ResponseDto;
-import jakarta.validation.Valid;
+import io.nexgrid.bizcoretemplate.handler.exception.ApiParameterNotValidException;
 import lombok.RequiredArgsConstructor;
 import lombok.extern.slf4j.Slf4j;
+import org.springframework.dao.DataIntegrityViolationException;
 import org.springframework.http.ResponseEntity;
 import org.springframework.validation.BindingResult;
 import org.springframework.validation.annotation.Validated;
@@ -22,7 +23,49 @@ import org.springframework.web.bind.annotation.RestController;
 public class MemberController {
 
     private final MemberService memberService;
-    // 생성자 주입방식
+
+    /*
+        ※ Spring Validation
+        boot 3.1 버전 이상부터는 유연한 에러처리를 위해 @Valid에 대한 에외를 발생시키지 않음 -> Custom으로 처리
+    */
+
+    /*
+        TODO 기능 추가 List
+        - ID 체크 API
+        - 멤버 정보 조회
+        - 멤버 정보 삭제
+        - 멤버 정보 변경
+        - 로그인, 로그아웃
+        - 세션정보 ???
+     */
+
+    @PostMapping("/signup")
+    public ResponseEntity<ResponseDto<Object>> signUpRequest(@Validated @RequestBody SignUpDto signUpDTO,
+                                                             BindingResult bindingResult) throws Exception {
+        // Validation DTO에 명시 (Validation 실패시 예외 핸들러가 처리)
+        log.info("▷▷▷ SignUp Request : {}", signUpDTO.toString());
+
+        // TODO 필수파라미터 검증 추가
+
+        // 파라미터 Validation 체크
+        if (bindingResult.hasErrors()) {
+             throw new ApiParameterNotValidException(bindingResult);
+        }
+
+        try {
+            memberService.signUpProcess(signUpDTO);
+        } catch (DataIntegrityViolationException ex) {
+            // 이미 존재하는 계정일때
+            log.info("DUPLICATE_ID : {} - 이미 존재하는 계정으로 가입요청", signUpDTO.getUserName());
+            return ResponseEntity.badRequest().body(ResponseDto.resultSet(ResultCode.DUPLICATE_LOGIN_ID.getCode()
+                                                                        , ResultCode.DUPLICATE_LOGIN_ID.getMessage()));
+        }
+
+        return ResponseEntity.ok(ResponseDto.resultSet(ResultCode.SUCCESS.getCode()
+                                                    , ResultCode.SUCCESS.getMessage()));
+    }
+
+
 
 //    @GetMapping("")
 //    public String getMemberInfo(Model model) {
@@ -45,32 +88,6 @@ public class MemberController {
 //
 //        return "info";
 //    }
-
-    @PostMapping("/signup")
-    public ResponseEntity<ResponseDto<Object>> signUpRequest(@Valid @RequestBody SignUpDto signUpDTO,
-                                                             BindingResult bindingResult) throws Exception {
-        // Validation DTO에 명시 (Validation 실패시 예외 핸들러가 처리)
-        // application/json; charset=UTF-8 요청
-
-        log.info("▷▷▷ SignUp Request : {}", signUpDTO.toString());
-
-        // TODO 필수파라미터 검증 추가
-
-//        if(bindingResult.hasErrors()) {
-//            // 파라미터 Validation 검증 실패시
-//            for (FieldError error : bindingResult.getFieldErrors()) {
-//                log.info("### Validation Error : {}, {}", error.getField(), error.getDefaultMessage());
-//            }
-//            // throw new MethodArgumentNotValidException(bindingResult);
-//        }
-        // TODO - Validation 에러시 예외처리 안해도 핸들러가 처리하는지 테스트 해야함
-
-        memberService.signUpProcess(signUpDTO);
-
-        return ResponseEntity.ok(ResponseDto.resultSet(ResultCode.SUCCESS.getCode()
-                                                    , ResultCode.SUCCESS.getMessage()));
-    }
-
 
 }
 
