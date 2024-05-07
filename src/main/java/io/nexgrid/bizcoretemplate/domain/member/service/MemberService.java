@@ -10,12 +10,12 @@ import org.springframework.transaction.annotation.Transactional;
 import java.util.List;
 
 @Service
-@Transactional
 @RequiredArgsConstructor
 public class MemberService {
 
     private final MemberRepository memberRepository;
 
+    @Transactional
     public void signUpProcess(SignUpDto signUpDto) {
 
         Member member = signUpDto.signUpEntity();
@@ -23,6 +23,7 @@ public class MemberService {
         memberRepository.save(member);
     }
 
+    @Transactional(readOnly = true)
     public List<Member> selectList() {
 
         return memberRepository.findAll();

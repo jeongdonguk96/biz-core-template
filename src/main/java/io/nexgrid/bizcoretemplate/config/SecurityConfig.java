@@ -30,37 +30,37 @@ public class SecurityConfig {
     public SecurityFilterChain filterChain(HttpSecurity http) throws Exception {
 
         http // 특정요청에 대한 config (순서에 유의)
-            .authorizeHttpRequests((auth) -> auth  // boot 3.1.x ~ 부터 람다형식 필수
-                .requestMatchers("/members", "/members/**").permitAll() // 모든 접근 허용
-                .requestMatchers("/admin").hasRole("ROOT")  // ROOT 권한 필요
-                .requestMatchers("/my/**").hasAnyRole("ROOT", "NORMAL") // ROOT, NORMAL 권한 필요
-                // .anyRequest().authenticated() // 지정한 요청 외의 나머지 모든 요청은 인증된 사람만
-            );
+                .authorizeHttpRequests((auth) -> auth  // boot 3.1.x ~ 부터 람다형식 필수
+                                .requestMatchers("/members", "/members/**").permitAll() // 모든 접근 허용
+                                .requestMatchers("/admin").hasRole("ROOT")  // ROOT 권한 필요
+                                .requestMatchers("/my/**").hasAnyRole("ROOT", "NORMAL") // ROOT, NORMAL 권한 필요
+                        // .anyRequest().authenticated() // 지정한 요청 외의 나머지 모든 요청은 인증된 사람만
+                );
 
         http // 로그인 설정
-            .formLogin((auth) -> auth
-                .loginPage("/members/login") // 권한이없는 유저인 경우 redirection
-                .loginProcessingUrl("/members/login") // 로그인 요청 process
-                .defaultSuccessUrl("/members") // 로그인 성공시
-                .usernameParameter("username")
-                .passwordParameter("password")
-                .permitAll()
-            );
+                .formLogin((auth) -> auth
+                        .loginPage("/members/login") // 권한이없는 유저인 경우 redirection
+                        .loginProcessingUrl("/members/login") // 로그인 요청 process
+                        .defaultSuccessUrl("/members") // 로그인 성공시
+                        .usernameParameter("username")
+                        .passwordParameter("password")
+                        .permitAll()
+                );
 
         http // security 자동설정 되어있는 사이트 위변조 방지 설정
-            .csrf((auth) -> auth.disable()); // 개발환경 설정
+                .csrf((auth) -> auth.disable()); // 개발환경 설정
 
 
         http // 스프링 동시 세션제어
-            .sessionManagement((auth) -> auth
-            .maximumSessions(1) // 최대 세션허용 갯수 (다중로그인)
-            .maxSessionsPreventsLogin(true) // 세션 허용갯수 초과시 처리 (true - 새로운세션 차단 / false - 기존세션 삭제)
-            // .expiredUrl("/members/login") // TODO 세션 만료시 요청 URL
-            );
+                .sessionManagement((auth) -> auth
+                                .maximumSessions(1) // 최대 세션허용 갯수 (다중로그인)
+                                .maxSessionsPreventsLogin(true) // 세션 허용갯수 초과시 처리 (true - 새로운세션 차단 / false - 기존세션 삭제)
+                        // .expiredUrl("/members/login") // TODO 세션 만료시 요청 URL
+                );
 
         http
-            .sessionManagement((auth) -> auth
-            .sessionFixation().changeSessionId()); // 동일한 세션에 대한 ID 변경 (쿠키를 이용한 세션탈취 방어)
+                .sessionManagement((auth) -> auth
+                        .sessionFixation().changeSessionId()); // 동일한 세션에 대한 ID 변경 (쿠키를 이용한 세션탈취 방어)
 
 //        http // 세션정책 설정
 //            .sessionManagement((auth) -> auth
