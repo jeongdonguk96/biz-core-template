@@ -22,9 +22,8 @@ public class CustomUserDetailService implements UserDetailsService {
 
         try {
             Member userData = memberRepository.findByUsername(username);
-            log.info("##################### Login UserInfo : {}", userData.toString());
-
             if (userData != null) {
+                log.info("### Login Success ▶ UserInfo : {}", userData.toString());
                 return new CustomUserDetails(userData);
             }
 

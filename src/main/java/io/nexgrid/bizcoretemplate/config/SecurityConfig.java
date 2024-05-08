@@ -35,13 +35,19 @@ public class SecurityConfig {
                 .requestMatchers("/admin").hasRole("ROOT")  // ROOT 권한 필요
                 .requestMatchers("/my/**").hasAnyRole("ROOT", "NORMAL") // ROOT, NORMAL 권한 필요
                 // .anyRequest().authenticated() // 지정한 요청 외의 나머지 모든 요청은 인증된 사람만
+
+//                    스웨거 관련 허용
+//                    "/api/v1/auth/**",
+//                    "/swagger-ui/**",
+//                    "/swagger-resources/**",
+//                    "/v3/api-docs/**"
             );
 
         http // 로그인 설정
             .formLogin((auth) -> auth
-                .loginPage("/members/login") // 권한이없는 유저인 경우 redirection
+                // .loginPage("/members/login") // 권한이없는 유저인 경우 redirection
                 .loginProcessingUrl("/members/login") // 로그인 요청 process
-                .defaultSuccessUrl("/members") // 로그인 성공시
+                // .defaultSuccessUrl("/main") // 로그인 성공시
                 .usernameParameter("username")
                 .passwordParameter("password")
                 .permitAll()

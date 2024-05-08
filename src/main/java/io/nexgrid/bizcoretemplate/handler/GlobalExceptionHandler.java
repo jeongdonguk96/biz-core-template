@@ -10,6 +10,7 @@ import org.springframework.validation.FieldError;
 import org.springframework.web.bind.annotation.ExceptionHandler;
 import org.springframework.web.bind.annotation.RestController;
 import org.springframework.web.bind.annotation.RestControllerAdvice;
+import org.springframework.web.method.annotation.MethodArgumentTypeMismatchException;
 
 @Slf4j
 @RestControllerAdvice(annotations = RestController.class)  // 모든 Rest컨트롤러 Exception 발생시 이쪽으로 intercept
@@ -62,4 +63,26 @@ public class GlobalExceptionHandler {
                                                     , errorCode.getMessage()));
     }
 
+
+    /**
+     * 잘못된 형식으로 요청시
+     *
+     * @param ex MethodArgumentTypeMismatchException
+     * @return ResponseEntity
+     */
+    @ExceptionHandler(MethodArgumentTypeMismatchException.class)
+    public ResponseEntity<ResponseDto<Object>> methodArgumentTypeMismatchException(MethodArgumentTypeMismatchException ex) {
+        ResultCode errorCode = ResultCode.INVALID_REQUEST_FORMAT;
+
+        log.error("----------------------------------------------------------------------------------------------------");
+        log.error("Exception 발생 ▶ {}", ex.toString());
+        log.error("ErrorCode : {}, {}", errorCode.getCode(), errorCode.getMessage());
+        for (int i=0; i<5; i++){
+            log.error("\t\t"+ex.getStackTrace()[i].toString());
+        }
+        log.error("----------------------------------------------------------------------------------------------------");
+
+        return ResponseEntity.badRequest().body(ResponseDto.resultSet(errorCode.getCode()
+                                                                    , errorCode.getMessage()));
+    }
 }
